@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Cypress Tests
 
 on:
   push:
@@ -9,45 +9,31 @@ on:
       - main
 
 jobs:
-  build:
+  cypress-run:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests with custom config
-        run: npx cypress run --config-file cypress.custom.json
+      - name: Run Cypress tests
+        run: npx cypress run
 
-      - name: Generate report
-        run: npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports
-
-      - name: Upload Cypress artifacts
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-reports
-          path: cypress/reports
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Generate Allure Report
+        run: npx allure generate --clean
 
       - name: Deploy to GitHub Pages
+        if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./c
+          publish_dir: ./allure-report
+          keep_files: true
