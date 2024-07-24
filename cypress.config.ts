@@ -52,6 +52,6 @@ export default defineConfig({
     baseUrl: "https://conduit.realworld.how/",
     specPattern: "**/*.feature",
     setupNodeEvents,
-    pageLoadTimeout: 3000,
+    pageLoadTimeout: 3000, 
   },
 });
