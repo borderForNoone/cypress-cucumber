@@ -1,7 +1,6 @@
 import { defineConfig } from "cypress";
 import webpack from "@cypress/webpack-preprocessor";
 import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
-import allureWriter from '@shelex/cypress-allure-plugin/writer';
 
 async function setupNodeEvents(
   on: Cypress.PluginEvents,
@@ -41,8 +40,11 @@ async function setupNodeEvents(
       },
     })
   );
-
-  allureWriter(on, config);
+  
+  on("after:run", (results) => {
+    const { MochawesomeReporter } = require('mochawesome');
+    MochawesomeReporter(results);
+  });
 
   return config;
 }
