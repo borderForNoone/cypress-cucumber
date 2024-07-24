@@ -40,11 +40,6 @@ async function setupNodeEvents(
       },
     })
   );
-  
-  on("after:run", (results) => {
-    const { MochawesomeReporter } = require('mochawesome');
-    MochawesomeReporter(results);
-  });
 
   return config;
 }
@@ -55,5 +50,14 @@ export default defineConfig({
     specPattern: "**/*.feature",
     setupNodeEvents,
     pageLoadTimeout: 3000, 
+    reporter: "mochawesome",
+    reporterOptions: {
+      reportDir: "cypress/reports",
+      reportFilename: "report",
+      quiet: true,
+      overwrite: false,
+      html: true,
+      json: true
+    }
   },
 });

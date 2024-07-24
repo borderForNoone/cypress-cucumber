@@ -1,7 +1,6 @@
 import { defineConfig } from "cypress";
 import webpack from "@cypress/webpack-preprocessor";
 import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
-import allureWriter from '@shelex/cypress-allure-plugin/writer';
 
 async function setupNodeEvents(
   on: Cypress.PluginEvents,
@@ -42,8 +41,6 @@ async function setupNodeEvents(
     })
   );
 
-  allureWriter(on, config);
-
   return config;
 }
 
@@ -52,6 +49,15 @@ export default defineConfig({
     baseUrl: "https://conduit.realworld.how/",
     specPattern: "**/*.feature",
     setupNodeEvents,
-    pageLoadTimeout: 60000, // Increased timeout to 60 seconds for GH Pages
+    pageLoadTimeout: 6000, 
+    reporter: "mochawesome",
+    reporterOptions: {
+      reportDir: "cypress/reports",
+      reportFilename: "report",
+      quiet: true,
+      overwrite: false,
+      html: true,
+      json: true
+    }
   },
 });
