@@ -39,7 +39,7 @@ jobs:
           ls -al allure-results
           ls -al allure-report
 
-      - name: Push Allure Report to gh-pages branch
+      - name: Clear and Redeploy gh-pages Branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -52,7 +52,7 @@ jobs:
           cp -R ../allure-report/* .
           git add .
           git commit -m "Update Allure report"
-          git push origin gh-pages
+          git push origin gh-pages --force
 
       - name: Set up GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -60,16 +60,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./allure-report
-
-      - name: Update GitHub Pages URL in Repo Description
-        run: |
-          curl -X PATCH "https://api.github.com/repos/${{ github.repository }}" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          -d '{"description": "Allure Report: https://borderfornoone.github.io/cypress-cucumber/"}'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Verify GitHub Pages
-        run: |
-          curl -I https://borderfornoone.github.io/cypress-cucumber/
