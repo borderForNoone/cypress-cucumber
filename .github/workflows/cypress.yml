@@ -69,3 +69,7 @@ jobs:
           -d '{"description": "Allure Report: https://borderfornoone.github.io/cypress-cucumber/"}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify GitHub Pages
+        run: |
+          curl -I https://borderfornoone.github.io/cypress-cucumber/
