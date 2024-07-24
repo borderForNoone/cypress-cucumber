@@ -39,24 +39,8 @@ jobs:
           ls -al allure-results
           ls -al allure-report
 
-      - name: Clear and Redeploy gh-pages Branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git fetch origin gh-pages || git checkout --orphan gh-pages
-          git worktree add gh-pages gh-pages
-          cd gh-pages
-          rm -rf ./*
-          cp -R ../allure-report/* .
-          git add .
-          git commit -m "Update Allure report"
-          git push origin gh-pages --force
-
-      - name: Set up GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload Allure Report as Artifact
+        uses: actions/upload-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./allure-report
+          name: allure-report
+          path: allure-report
