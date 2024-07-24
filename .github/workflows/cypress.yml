@@ -24,16 +24,22 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline --save-dev
+
+      - name: Create Allure Results Directory
+        run: mkdir -p allure-results
+
       - name: Run Cypress tests
-        run: npx cypress run --reporter mochawesome
+        run: npx cypress run
 
-      - name: Create Report Directory
-        run: mkdir -p mochawesome-report
+      - name: Generate Allure Report
+        run: |
+          npx allure generate allure-results --clean -o allure-report
+          ls -al allure-results
+          ls -al allure-report
 
-      - name: Move Report Files
-        run: mv mochawesome-report/*.json mochawesome-report
-
-      - name: Push Report to gh-pages branch
+      - name: Push Allure Report to gh-pages branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -43,9 +49,9 @@ jobs:
           git worktree add gh-pages gh-pages
           cd gh-pages
           rm -rf ./*
-          cp -R ../mochawesome-report/* .
+          cp -R ../allure-report/* .
           git add .
-          git commit -m "Update report"
+          git commit -m "Update Allure report"
           git push origin gh-pages
 
       - name: Set up GitHub Pages
@@ -53,14 +59,14 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./mochawesome-report
+          publish_dir: ./allure-report
 
       - name: Update GitHub Pages URL in Repo Description
         run: |
           curl -X PATCH "https://api.github.com/repos/${{ github.repository }}" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          -d '{"description": "Report: https://borderfornoone.github.io/cypress-cucumber/"}'
+          -d '{"description": "Allure Report: https://borderfornoone.github.io/cypress-cucumber/"}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
