@@ -59,10 +59,10 @@ jobs:
           curl -X PATCH "https://api.github.com/repos/${{ github.repository }}" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          -d '{"description": "Mochawesome Report: https://borderfornoone.github.io/cypress-cucumber/"}'
+          -d '{"description": "Mochawesome Report: https://cypress-cucumber/"}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify GitHub Pages
         run: |
-          curl -I https://borderfornoone.github.io/cypress-cucumber/
+          curl -I https://cypress-cucumber/
