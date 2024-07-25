@@ -6,7 +6,8 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "typeRoots": ["node_modules/@types", "cypress/support"]
+    "typeRoots": ["node_modules/@types", "./types"],
+    "types": ["cypress"]
   },
   "include": ["**/*.ts", "**/*.tsx", "cypress/**/*.ts"]
 }
