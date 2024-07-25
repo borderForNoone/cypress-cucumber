@@ -1,6 +1,6 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import { HomePage } from '../pages/HomePage';
-import { RegistrationPage } from '../pages/RegistrationPage';
+import { HomePage } from '../../pages/HomePage';
+import { RegistrationPage } from '../../pages/RegistrationPage';
 import { faker } from '@faker-js/faker';
 
 const homePage = new HomePage();
