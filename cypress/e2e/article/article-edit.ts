@@ -40,3 +40,4 @@ When('I edit the article', () => {
 Then('I should see the updated article', () => {
     articlePage.getArticleTitle().should('eq', newTitle);
 });
+
