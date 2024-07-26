@@ -1,7 +1,6 @@
 import { defineConfig } from "cypress";
 import webpack from "@cypress/webpack-preprocessor";
 import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
-import allureWriter from "@shelex/cypress-allure-plugin/writer";
 
 async function setupNodeEvents(
   on: Cypress.PluginEvents,
@@ -42,8 +41,6 @@ async function setupNodeEvents(
     })
   );
 
-  allureWriter(on, config);
-
   return config;
 }
 
@@ -54,8 +51,6 @@ export default defineConfig({
     specPattern: "cypress/e2e/**/*.feature",
     setupNodeEvents,
     pageLoadTimeout: 6000,
-    env: {
-      allureReuseAfterSpec: true,
-    },
+    screenshotOnRunFailure: true
   },
 });

@@ -1,12 +1,8 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import { LoginPage } from '../../pages/LoginPage';
-import { HomePage } from '../../pages/HomePage';
-import { RegistrationPage } from '../../pages/RegistrationPage';
+import loginPage from '../../pages/LoginPage';
+import homePage from '../../pages/HomePage';
+import registrationPage from '../../pages/RegistrationPage';
 import { faker } from '@faker-js/faker';
-
-const loginPage = new LoginPage();
-const homePage = new HomePage();
-const registrationPage = new RegistrationPage();
 
 const username = faker.internet.userName();
 const email = faker.internet.email();

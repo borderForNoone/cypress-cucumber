@@ -1,6 +1,6 @@
 import { Page } from './Page';
 
-export class RegistrationPage extends Page {
+class RegistrationPage extends Page {
   readonly usernameInput = 'input[name="username"]';
   readonly emailInput = 'input[name="email"]';
   readonly passwordInput = 'input[name="password"]';
@@ -16,3 +16,5 @@ export class RegistrationPage extends Page {
     this.clickButton(this.submitButton);
   }
 }
+
+export default new RegistrationPage();

@@ -25,4 +25,11 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests with recording
-        run: npx cypress run --browser chrome --spec "cypress/e2e/**/*.feature" --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+        run: npx cypress run --browser chrome --spec "cypress/e2e/**/*.feature" --config-file prod.config.ts --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: Deploy report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: reports
+          publish_dir: reports/html
