@@ -16,7 +16,7 @@ When('I have an account', () => {
   registrationPage.visit('/register');
   registrationPage.fillRegistrationForm(username, email, password);
   registrationPage.submitRegistrationForm();
-  homePage.assertContainsText('.navbar .nav-link', username);
+  homePage.assertContainsText(homePage.navLink, username);
   loginPage.visit('/login');
 });
 

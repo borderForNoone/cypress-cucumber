@@ -29,7 +29,6 @@ When('the user attempts to update their profile', () => {
 });
 
 Then('the profile information should remain unchanged', () => {
-    // Re-fetch the profile info and assert that it matches the original username and email
     homePage.assertUsernameInTopRight(username);
     settingsPage.assertProfileUsername(username);
     settingsPage.assertProfileEmail(email);
@@ -38,7 +37,6 @@ Then('the profile information should remain unchanged', () => {
 Then('no unexpected errors should occur during the update', () => {
     cy.on('uncaught:exception', (err) => {
         console.error('Uncaught exception:', err);
-        // Prevent Cypress from failing the test due to the uncaught exception
         return false;
     });
 });

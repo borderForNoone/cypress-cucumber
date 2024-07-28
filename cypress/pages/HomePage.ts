@@ -13,6 +13,7 @@ class HomePage extends Page {
   readonly loadingTagsMessage = '.tag-list > div';
   readonly loadingArticlesMessage = '.article-preview > div';
   readonly globalFeedLink = 'a.nav-link:contains("Global Feed")';
+  readonly bottom = 'bottom';
 
   private clickedTag: string | null = null;
 
@@ -42,19 +43,19 @@ class HomePage extends Page {
 
   clickRandomPopularTag() {
     cy.get(this.loadingTagsMessage).should('not.exist');
-  
+
     cy.get(this.popularTags).should('be.visible');
-  
+
     cy.get(this.tagList).find(this.tagDefault).then($tags => {
       if ($tags.length === 0) {
         throw new Error('No tags found in the tag list.');
       }
-  
+
       const randomIndex = Math.floor(Math.random() * $tags.length);
       const randomTag = $tags.eq(randomIndex).text().trim();
-  
+
       cy.wrap($tags.eq(randomIndex)).click();
-  
+
       this.clickedTag = randomTag;
     });
   }
@@ -62,9 +63,9 @@ class HomePage extends Page {
   assertArticlesWithRandomPopularTagVisible() {
     if (this.clickedTag) {
       const tag = this.clickedTag;
-      
+
       cy.get(this.articlePreview).should('be.visible');
-      
+
       cy.get(this.tagList).contains(tag).should('be.visible');
 
       cy.get(this.articlePreview).should('have.length.greaterThan', 0).each(article => {
@@ -81,6 +82,10 @@ class HomePage extends Page {
 
   clickGlobalFeed() {
     this.getElement(this.globalFeedLink).click();
+  }
+
+  scrollToBottom() {
+    cy.scrollTo(this.bottom);
   }
 }
 

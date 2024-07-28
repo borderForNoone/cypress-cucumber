@@ -6,7 +6,7 @@ Given('I am on the homepage', () => {
 });
 
 When('I scroll down', () => {
-    cy.scrollTo('bottom');
+    homePage.scrollToBottom();
 });
 
 Then('I should see a list of articles', () => {

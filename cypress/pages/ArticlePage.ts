@@ -8,9 +8,11 @@ class ArticlePage extends Page {
     readonly likeButton = 'button.btn-outline-primary';
     readonly articleContent = '.article-content';
     readonly likeCountSpan = 'span.counter';
+    readonly commentText = '.card-text';
+    readonly articleTitle = 'h1';
 
     assertArticleTitle(title: string) {
-        this.assertContainsText('h1', title);
+        this.assertContainsText(this.articleTitle, title);
     }
 
     clickEditArticle() {
@@ -18,7 +20,7 @@ class ArticlePage extends Page {
     }
 
     getArticleTitle() {
-        return this.getElement('h1').invoke('text');
+        return this.getElement(this.articleTitle).invoke('text');
     }
 
     clickDeleteArticleButton() {
@@ -38,7 +40,7 @@ class ArticlePage extends Page {
     }
 
     assertCommentVisible(comment: string) {
-        this.assertContainsText('.card-text', comment);
+        this.assertContainsText(this.commentText, comment);
     }
 
     clickLikeButton() {

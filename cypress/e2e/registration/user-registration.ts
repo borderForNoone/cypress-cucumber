@@ -20,5 +20,5 @@ When('I submit the registration form', () => {
 });
 
 Then('I should see my username in the top right corner', () => {
-  homePage.assertContainsText('.navbar .nav-link', username);
+  homePage.assertContainsText(homePage.navLink, username);
 });
