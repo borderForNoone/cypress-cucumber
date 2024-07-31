@@ -46,6 +46,8 @@ async function setupNodeEvents(
 
 export default defineConfig({
   projectId: 'snrn43',
+  screenshotsFolder: 'reports/screenshots',
+  videosFolder: 'reports/videos',
   e2e: {
     baseUrl: "https://conduit.realworld.how/",
     specPattern: "cypress/e2e/**/*.feature",

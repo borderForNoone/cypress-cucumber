@@ -1,15 +1,14 @@
 {
   "name": "cypress-cucumber",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "cypress cucumber project",
   "scripts": {
     "test": "cypress run",
     "ui-regression-allure": "cypress run --browser chrome --spec \"cypress/e2e/**/*.feature\" --env allure=true && npm run allure:report",
     "allure:report": "allure generate allure-results --clean -o allure-report"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["cypress, cucumber"],
+  "author": "Denys Kulikov",
   "license": "ISC",
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^20.1.0",
