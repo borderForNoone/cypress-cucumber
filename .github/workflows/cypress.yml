@@ -57,25 +57,45 @@ jobs:
         if: always()
         run: ls -R 
 
+      - name: Push Reports to gh-pages branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Set up git
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          
+          # Check out the gh-pages branch
+          git fetch origin gh-pages || git checkout --orphan gh-pages
+          git worktree add gh-pages gh-pages
+          cd gh-pages
+          # Clear the gh-pages branch content
+          rm -rf ./*
+          # Copy the report to the gh-pages branch
+          cp -R ../cucumber-report/* .
+          # Commit and push the report to the gh-pages branch
+          git add .
+          git commit -m "Update report"
+          git push origin gh-pages
+
   deploy:
     needs: test
     runs-on: ubuntu-latest
     if: always()
 
     steps:
-      - name: Download cucumber report artifact
-        if: always()
-        uses: actions/download-artifact@v3
-        with:
-          name: cucumber-report
-          path: ./cucumber-report
-
-      - name: List contents of downloaded cucumber-report
-        if: always()
-        run: ls -R 
-
-      - name: Deploy report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v2
+      - name: Set up GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
           publish_dir: ./cucumber-report
+
+      - name: Update GitHub Pages URL in Repo Description
+        run: |
+          curl -X PATCH "https://api.github.com/repos/${{ github.repository }}" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          -d '{"description": "Allure Report: https://borderForNoone.github.io/cypress-cucumber/"}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
