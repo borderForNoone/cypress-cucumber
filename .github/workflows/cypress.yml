@@ -56,6 +56,12 @@ jobs:
           path: cypress/videos
           if-no-files-found: ignore
 
+      - name: Deploy report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./cucumber-report
+
   deploy:
     needs: test
     runs-on: ubuntu-latest
