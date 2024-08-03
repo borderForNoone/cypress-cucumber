@@ -58,9 +58,8 @@ jobs:
         run: ls -R ./cucumber-report
 
   deploy:
-    needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: always()
 
     steps:
       - name: Checkout repository
