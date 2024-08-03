@@ -79,3 +79,9 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: ./cucumber-report
+
+      - name: Print GitHub Pages URL
+        run: |
+          REPO_NAME=$(basename $GITHUB_REPOSITORY)
+          REPO_OWNER=$(dirname $GITHUB_REPOSITORY)
+          echo "GitHub Pages URL: https://${REPO_OWNER}.github.io/${REPO_NAME}/"
