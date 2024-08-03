@@ -29,16 +29,16 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: List contents of cucumber-report
-        run: ls -R ./cucumber-report
-
       - name: Create cucumber-report
-        if: always()
         uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
         with:
           name: cucumber-report
           path: ./cucumber-report
           retention-days: 1
+
+      - name: List contents of cucumber-report
+        run: ls -R ./cucumber-report
 
       - name: Screenshots report
         if: always()
