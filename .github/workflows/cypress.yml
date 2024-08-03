@@ -29,6 +29,17 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: List contents before uploading cucumber-report
+        run: ls -R ./cucumber-report
+
+      - name: Create cucumber-report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: ./cucumber-report
+          retention-days: 1
+
       - name: Screenshots report
         if: always()
         uses: actions/upload-artifact@v4
@@ -43,14 +54,7 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos
-          if-no-files-found: ignore 
-
-      - name: Create cucumber-report
-        if: always()
-        run: |
-          echo "Generating cucumber report..."
-          # Ensure cucumber-report directory exists before uploading
-          mkdir -p cucumber-report
+          if-no-files-found: ignore
 
   deploy:
     needs: test
@@ -67,7 +71,8 @@ jobs:
           name: cucumber-report
           path: ./cucumber-report
 
-      - name: Display structure of downloaded files
+      - name: List contents of downloaded cucumber-report
+        if: always()
         run: ls -R ./cucumber-report
 
       - name: Deploy report to GitHub Pages
