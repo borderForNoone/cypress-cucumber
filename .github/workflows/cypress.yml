@@ -37,9 +37,6 @@ jobs:
           path: ./cucumber-report
           retention-days: 1
 
-      - name: List contents of cucumber-report
-        run: ls -R ./cucumber-report
-
       - name: Screenshots report
         if: always()
         uses: actions/upload-artifact@v4
@@ -62,10 +59,8 @@ jobs:
     if: always()
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Download cucumber report artifact
+        if: always()
         uses: actions/download-artifact@v3
         with:
           name: cucumber-report
@@ -73,7 +68,7 @@ jobs:
 
       - name: List contents of downloaded cucumber-report
         if: always()
-        run: ls -R ./cucumber-report
+        run: ls -R 
 
       - name: Deploy report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v2
