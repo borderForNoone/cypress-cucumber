@@ -21,8 +21,9 @@ npm run test
 
 # Report
 
-The report is generated in the cloud: https://cloud.cypress.io/projects/snrn43/runs.
+The report is generated on the gitHub page: https://borderfornoone.github.io/cypress-cucumber/
+You can also see the report in the cloud: https://cloud.cypress.io/projects/snrn43/runs.
 
 # CI
 
-Testing runs in GitHub actions and deploys a report in the cloud https://cloud.cypress.io/projects/snrn43/runs.
+Testing runs in GitHub actions and deploys a report on the gitHub page: https://borderfornoone.github.io/cypress-cucumber/.
