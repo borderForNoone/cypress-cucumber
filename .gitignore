@@ -3,4 +3,4 @@ allure-report
 allure-results
 cypress/screenshots
 .vscode
-.cucumber-report
+cucumber-report
