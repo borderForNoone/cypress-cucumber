@@ -29,9 +29,12 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: List contents before uploading cucumber-report
+        run: ls -R ./cucumber-report
+
       - name: Create cucumber-report
         uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ !cancelled() }}
         with:
           name: cucumber-report
           path: ./cucumber-report
@@ -53,18 +56,16 @@ jobs:
           path: cypress/videos
           if-no-files-found: ignore
 
-      - name: List contents of downloaded cucumber-report
-        if: always()
-        run: ls -R 
-
   deploy:
     needs: test
     runs-on: ubuntu-latest
     if: always()
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download cucumber report artifact
-        if: always()
         uses: actions/download-artifact@v3
         with:
           name: cucumber-report
@@ -72,7 +73,7 @@ jobs:
 
       - name: List contents of downloaded cucumber-report
         if: always()
-        run: ls -R 
+        run: ls -R ./cucumber-report
 
       - name: Deploy report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v2
