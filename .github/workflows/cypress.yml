@@ -58,8 +58,9 @@ jobs:
         run: ls -R ./cucumber-report
 
   deploy:
+    needs: test 
     runs-on: ubuntu-latest
-    if: always()
+    if: always() 
 
     steps:
       - name: Checkout repository
