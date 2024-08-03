@@ -49,8 +49,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-report
-          path: cypress/report
+          name: cucumber-report
+          path: ./cucumber-report
           retention-days: 1
 
   deploy:
@@ -65,7 +65,7 @@ jobs:
       - name: Download cucumber report artifact
         uses: actions/download-artifact@v3
         with:
-          name: cypress-report
+          name: cucumber-report
           path: ./cucumber-report
 
       - name: Display structure of downloaded files
