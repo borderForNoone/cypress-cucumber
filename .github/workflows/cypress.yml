@@ -9,71 +9,71 @@ on:
       - main
 
 jobs:
-    test:
-        timeout-minutes: 60
-        runs-on: ubuntu-latest
-        name: E2E on Chrome
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    name: E2E on Chrome
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Cypress run
-              uses: cypress-io/github-action@v6
-              with:
-                  browser: chrome
-                  record: true
-                  parallel: true
-              env:
-                  group: 'UI-Chrome'
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          record: true
+          parallel: true
+        env:
+          group: 'UI-Chrome'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Screenshots report
-              if: always()
-              uses: actions/upload-artifact@v4
-              with:
-                  name: cypress-screenshots
-                  path: cypress/screenshots
-                  if-no-files-found: ignore
-
-            - name: Video report
-              if: always()
-              uses: actions/upload-artifact@v4
-              with:
-                  name: cypress-videos
-                  path: cypress/videos
-                  if-no-files-found: ignore 
-
-            - name: Create cucumber-report
-              uses: actions/upload-artifact@v4
-              if: ${{ !cancelled() }}
-              with:
-                  name: cypress-report
-                  path: /cypress/report
-                  retension-days: 1     
-    
-    deplot:
-        needs: test
-        runs-on: ubuntu-latest
+      - name: Screenshots report
         if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore
 
-        steps:
-            - name: Download cucumber report artifact
-              if: always()
+      - name: Video report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore 
 
-              steps:
-                  - name: Download cucumber report artifact
-                    if: always()
-                    run: ls -R
+      - name: Create cucumber-report
+        if: always()
+        run: echo "Generating cucumber report..."
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-report
+          path: cypress/report
+          retention-days: 1
 
-                  - name: Display structure of dowloaded files
-                    if: always()
-                    run: ls -R
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
 
-                  - name: Deploy report to Github Pages
-                    if: always()
-                    uses: peaceiris/actions-gh-pages@v2
-                    env:
-                        PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                        PUBLISH_BRANCH: gh-pages
-                        PUBLISH_DIR: ./cucumber-report
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download cucumber report artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-report
+          path: ./cucumber-report
+
+      - name: Display structure of downloaded files
+        if: always()
+        run: ls -R
+
+      - name: Deploy report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./cucumber-report
