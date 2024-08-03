@@ -45,15 +45,12 @@ jobs:
           path: cypress/videos
           if-no-files-found: ignore 
 
-      - name: Verify and create cucumber-report
+      - name: Create cucumber-report
         if: always()
-        run: |
-          echo "Verifying report directory"
-          ls -R cypress/report
         uses: actions/upload-artifact@v4
         with:
           name: cypress-report
-          path: cucumber-report
+          path: cypress/report
           retention-days: 1
 
   deploy:
