@@ -47,10 +47,13 @@ jobs:
 
       - name: Create cucumber-report
         if: always()
+        run: |
+          echo "Generating cucumber report..."
+          ls -R cucumber-report
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-report
-          path: cucumber-report 
+          path: cucumber-report
           retention-days: 1
 
   deploy:
