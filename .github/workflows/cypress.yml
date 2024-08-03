@@ -53,6 +53,10 @@ jobs:
           path: cypress/videos
           if-no-files-found: ignore
 
+      - name: List contents of downloaded cucumber-report
+        if: always()
+        run: ls -R 
+
   deploy:
     needs: test
     runs-on: ubuntu-latest
