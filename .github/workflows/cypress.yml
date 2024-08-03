@@ -46,7 +46,6 @@ jobs:
 
       - name: Create cucumber-report
         if: always()
-        run: echo "Generating cucumber report..."
         uses: actions/upload-artifact@v4
         with:
           name: cypress-report
@@ -70,7 +69,7 @@ jobs:
 
       - name: Display structure of downloaded files
         if: always()
-        run: ls -R
+        run: ls -R ./cucumber-report
 
       - name: Deploy report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v2
