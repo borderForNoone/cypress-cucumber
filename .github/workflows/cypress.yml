@@ -72,7 +72,6 @@ jobs:
           path: ./cucumber-report
 
       - name: Display structure of downloaded files
-        if: always()
         run: ls -R ./cucumber-report
 
       - name: Deploy report to GitHub Pages
