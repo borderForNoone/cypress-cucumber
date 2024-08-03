@@ -13,7 +13,7 @@ Given('I am on the login page', () => {
 });
 
 When('I have an account', () => {
-  registrationPage.visit('/register');
+  registrationPage.visit();
   registrationPage.fillRegistrationForm(username, email, password);
   registrationPage.submitRegistrationForm();
   homePage.assertContainsText(homePage.navLink, username);

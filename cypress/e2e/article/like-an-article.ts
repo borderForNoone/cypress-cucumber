@@ -11,7 +11,7 @@ const password = faker.internet.password();
 let initialLikeCount: number;
 
 Given('the user is logged in', () => {
-    registrationPage.visit('/register');
+    registrationPage.visit();
     registrationPage.fillRegistrationForm(username, email, password);
     registrationPage.submitRegistrationForm();
     homePage.assertUsernameInTopRight(username);

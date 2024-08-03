@@ -9,27 +9,72 @@ on:
       - main
 
 jobs:
-  cypress-run:
-    runs-on: ubuntu-latest
+    test:
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        name: E2E on Chrome
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
+            - name: Cypress run
+              uses: cypress-io/github-action@v6
+              with:
+                  browser: chrome
+                  record: true
+                  parallel: true
+              env:
+                  group: 'UI-Chrome'
+                  CYPRESSS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies
-        run: npm install
+            - name: Screenshots report
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: cypress-screenshots
+                  path: cypress/screenshots
+                  if-no-files-found: ignore
 
-      - name: Run Cypress tests with recording
-        run: npx cypress run --browser chrome --spec "cypress/e2e/**/*.feature" --config-file prod.config.ts --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+            - name: Video report
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: cypress-videos
+                  path: cypress/videos
+                  if-no-files-found: ignore 
 
-      - name: Deploy report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: reports
-          publish_dir: reports/html
+            - name: Create cucumber-report
+              uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                  name: cypress-report
+                  path: ,/cypress/report
+                  retension-days: 1     
+    
+    deplot:
+        needs: test
+        runs-on: ubuntu-latest
+        if: always()
+
+        steps:
+            - name: Download cucumber report artifact
+              if: always()
+
+              steps:
+                  - name: Download cucumber report artifact
+                    if: always()
+                    run: ls -R
+
+                  - name: Display structure of dowloaded files
+                    if: always()
+                    run: ls -R
+
+                  - name: Deploy report to Github Pages
+                    if: always()
+                    uses: peaceiris/actions-gh-pages@v2
+                    env:
+                        PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                        PUBLISH_BRANCH: gh-pages
+                        PUBLISH_DIR: ./cucumber-report

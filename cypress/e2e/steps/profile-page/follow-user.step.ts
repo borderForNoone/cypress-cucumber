@@ -1,7 +1,7 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import homePage from '../../pages/HomePage';
-import profilePage from '../../pages/ProfilePage';
-import registrationPage from '../../pages/RegistrationPage';
+import homePage from '../../../pages/HomePage';
+import profilePage from '../../../pages/ProfilePage';
+import registrationPage from '../../../pages/RegistrationPage';
 import { faker } from '@faker-js/faker';
 
 const username = faker.internet.userName();
@@ -10,7 +10,7 @@ const password = faker.internet.password();
 const otherUser = 'jake'; 
 
 Given('I am logged in', () => {
-    registrationPage.visit('/register');
+    registrationPage.visit();
     registrationPage.fillRegistrationForm(username, email, password);
     registrationPage.submitRegistrationForm();
     homePage.assertUsernameInTopRight(username);

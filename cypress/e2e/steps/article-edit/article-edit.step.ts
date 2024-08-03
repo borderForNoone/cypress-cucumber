@@ -1,8 +1,8 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import homePage from '../../pages/HomePage';
-import createArticlePage from '../../pages/CreateArticlePage';
-import registrationPage from '../../pages/RegistrationPage';
-import articlePage from '../../pages/ArticlePage';
+import homePage from '../../../pages/HomePage';
+import createArticlePage from '../../../pages/CreateArticlePage';
+import registrationPage from '../../../pages/RegistrationPage';
+import articlePage from '../../../pages/ArticlePage';
 import { faker } from '@faker-js/faker';
 
 const title = faker.lorem.sentence();
@@ -20,7 +20,7 @@ const email = faker.internet.email();
 const password = faker.internet.password();
 
 Given('I have an article', () => {
-    registrationPage.visit('/register');
+    registrationPage.visit();
     registrationPage.fillRegistrationForm(username, email, password);
     registrationPage.submitRegistrationForm();
     homePage.assertUsernameInTopRight(username);

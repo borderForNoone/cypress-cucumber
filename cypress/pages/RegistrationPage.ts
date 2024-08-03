@@ -15,6 +15,10 @@ class RegistrationPage extends Page {
   submitRegistrationForm() {
     this.clickButton(this.submitButton);
   }
+
+  visit() {
+    super.visit('/register');
+  }
 }
 
 export default new RegistrationPage();

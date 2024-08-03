@@ -9,7 +9,7 @@ const email = faker.internet.email();
 const password = faker.internet.password();
 
 Given('I am logged in', () => {
-    registrationPage.visit('/register');
+    registrationPage.visit();
     registrationPage.fillRegistrationForm(username, email, password);
     registrationPage.submitRegistrationForm();
     homePage.assertContainsText(homePage.navLink, username);

@@ -9,11 +9,9 @@ The TypeScript Node.js Cypress Сucumber project.
     - `git clone https://github.com/borderForNoone/cypress-cucumber.git`
     - `cd cypress-cucumber`
 3. Install Dependencies;
-    npm install
+    - `npm install`
 
 # Steps to run
-
-`cd cypress-cucumber`
 
 Run the command below
 

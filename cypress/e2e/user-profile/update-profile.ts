@@ -13,7 +13,7 @@ const email = faker.internet.email();
 const password = faker.internet.password();
 
 Given('the user is logged in', () => {
-    registrationPage.visit('/register');
+    registrationPage.visit();
     registrationPage.fillRegistrationForm(username, email, password);
     registrationPage.submitRegistrationForm();
     homePage.assertUsernameInTopRight(username);
