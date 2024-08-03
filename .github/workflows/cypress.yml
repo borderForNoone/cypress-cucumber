@@ -50,7 +50,7 @@ jobs:
               if: ${{ !cancelled() }}
               with:
                   name: cypress-report
-                  path: ,/cypress/report
+                  path: /cypress/report
                   retension-days: 1     
     
     deplot:
